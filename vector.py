@@ -13,6 +13,10 @@ class Vector:
     def __init__(self, coords):
         self.coords = coords
 
+    def get_coords(self):
+        """Return list of vector coords"""
+        return self.coords
+
     def lenght(self, coords):
         """Calculation of vector lenght and return float"""
         vector_lenght = 0
@@ -22,8 +26,6 @@ class Vector:
     
     def evklid_dist(self, other):
         """Calculation of vector distans in Evklid metrics and return float"""
-        if len(self.coords) != len(other.coords):
-            raise ValueError("Vectors needs same lenght")
         dist = 0
         for i in range(len(self.coords)):
             dist += (self.coords[i] - other.coords[i])**2
@@ -32,8 +34,6 @@ class Vector:
     
     def manhetten_dist(self, other):
         """Calculation of vector distans in Manhetten metrics and return float"""
-        if len(self.coords) != len(other.coords):
-            raise ValueError("Vectors needs same lenght")
         dist = 0
         for i in range(len(self.coords)):
             if self.coords[i] >= other.coords[i]:
@@ -44,8 +44,6 @@ class Vector:
     
     def max_metric_dist(self, other):
         """Calculation of vector distans in max-metrics and return float"""
-        if len(self.coords) != len(other.coords):
-            raise ValueError("Vectors needs same lenght")
         dists = []
         dist = 0
         for i in range(len(self.coords)):
