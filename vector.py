@@ -11,8 +11,9 @@ class Vector:
     """
 
     def __init__(self, coords):
-        self.coords = coords
+        self.__coords = coords
 
+    @property
     def get_coords(self):
         """Return list of vector coords"""
         return self.coords

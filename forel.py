@@ -41,10 +41,10 @@ def center_mass_calc(vectors):
         return []
     
     center_mass_coords = []
-    for i in range(len(vectors[0].get_coords())):
+    for i in range(len(vectors[0].get_coords)):
         coord_sum = 0
         for j in vectors:
-            coord_sum += j.get_coords()[i]
+            coord_sum += j.get_coords[i]
         center_mass_coords.append(coord_sum/len(vectors))
     return center_mass_coords
 
@@ -52,7 +52,7 @@ def forel_alg(vectors, R):
     """Apply FOREL algorithm and return list of vectors"""
     coords = []
     for i in vectors:
-        coords.append(i.get_coords())
+        coords.append(i.get_coords)
     clusters = []
     vectors_copy = vectors.copy()
     coords_copy = coords.copy()
@@ -72,6 +72,6 @@ def forel_alg(vectors, R):
             center_mass_new = center_mass_calc(cluster_vectors, forel, R)
         for i in cluster_vectors:
             vectors_copy.remove(i)
-            coords_copy.remove(i.get_coords())
+            coords_copy.remove(i.get_coords)
         clusters.append(cluster_vectors)
     return clusters
