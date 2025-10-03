@@ -114,12 +114,55 @@ def sko(list_):
         sum_for_sko += (i-list_mean)**2
     return math.sqrt(sum_for_sko/(len(list_)-1))
 
-def get_coords(lenght, sample_num, ws):
-    """Gets coords and return list"""
-    coords = []
-    for i in range(1, lenght+1):
-        coords.append(ws.cell(row=sample_num, column=i).value)
-    return coords
+def signs_normalize(filename, data_sheet, normilized_sheet):
+    #Normalizing data p-pmean/sko and return list of list of signs of ever sample 
+    ws = load_workbook(filename)
+    wb = ws[data_sheet]
+    column = 1
+    signs = []
+    while wb.cell(row=1, column=column).value != None:
+        row = 1
+        sign = []
+        while wb.cell(row=row, column=column).value != None:
+            sign.append(wb.cell(row=row, column=column).value)
+            row+=1
+        
+        column += 1
+        signs.append(sign)
+
+    wb_normalized = ws[normilized_sheet]
+
+    for i in range(len(signs)):
+        sign_mean = mean(signs[i])
+        sign_sko = sko(signs[i])
+        for j in range(len(signs[i])):
+            wb_normalized.cell(column=i+1, row=j+1, value=(signs[i][j]-sign_mean)/sign_sko)
+
+    ws.save(filename)
+    return signs
+
+def mae_calc(values_list, predict_values_list):
+    """Function calculate mae and return float"""
+    if len(values_list) != len(predict_values_list):
+        raise Exception("Number of values and prediction values not equal")
+
+    mae = 0
+    for i in range(len(values_list)):
+        mae += (abs(values_list[i]-predict_values_list[i]))
+
+    return mae
+
+def mape_calc(values_list, predict_values_list):
+    """Function calculate mape and return float"""
+    if len(values_list) != len(predict_values_list):
+        raise Exception("Number of values and prediction values not equal")
+
+    mape = 0
+    for i in range(len(values_list)):
+        mape += ((abs(values_list[i]-predict_values_list[i]))/abs(values_list[i]))
+    mape = mape*100
+    mape = mape/len(values_list)
+    return mape
 
 #for j in range(1, 13):
 #    month_creator(j, year)
