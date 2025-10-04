@@ -4,6 +4,7 @@ from load import load_dataset
 from vector import Vector
 from forel import get_cluster_vectors
 from core import mape_calc
+from matrix import Matrix
 
 filename = 'Test.xlsx'
 sheet = 'Data'
@@ -30,3 +31,8 @@ while ws.cell(row = i, column = 2).value != None:
     Y.append(ws.cell(row = i, column = 2).value)
     i += 1
 
+X= Matrix(X)
+Y= Matrix(Y)
+X_t = X.transponing()
+Ans = (Matrix.reverse((X_t.multiply(X)).data)).multiply(X_t).multiply(Y)
+print(Ans.data)
