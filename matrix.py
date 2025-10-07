@@ -61,11 +61,11 @@ class Matrix:
         new_data = []
         for i in range(self.__row_num):
             new_data.append([])
-            for j in range(self.__column_num):
+            for j in range(other.__column_num):
                 new_data[i].append([])
                 sum = 0
-                for k in range(self.__row_num):
-                    sum += self.__data[i][j]*other.__data[j][i]
+                for k in range(other.__row_num):
+                    sum += self.__data[i][k]*other.__data[k][j]
                 new_data[i][j] = sum
         return Matrix(new_data)
     
@@ -104,3 +104,24 @@ class Matrix:
                 j /= det
         Reversed = Matrix(data).transponing
         return Reversed
+    
+    @property
+    def reverse(self, critical_det=1e-10, regularization_param=1e-6):
+        """Calculate reversed matrix and return object Matrix"""
+        det = Matrix.determinant(self.data)
+        if det < critical_det:
+            data = Matrix.regularisation(self.data, regularization_param).data
+        else:
+            data = self.data
+        for i in data:
+            for j in i:
+                j /= det
+        Reversed = Matrix(data).transponing
+        return Reversed
+    
+    @staticmethod
+    def regularisation(data, regularization_param=1e-6):
+        new_data = data
+        for i in range(min(len(data), len(data[0]))):
+            new_data[i][i] += regularization_param
+        return Matrix(new_data)

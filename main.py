@@ -24,15 +24,20 @@ while ws.cell(row = 1, column = col).value != None:
     X.append(X_n_vals)
     col += 1
 
-Y = []
+Y = [[]]
 
 i = 1
 while ws.cell(row = i, column = 2).value != None:
-    Y.append(ws.cell(row = i, column = 2).value)
+    Y[0].append(ws.cell(row = i, column = 2).value)
     i += 1
 
 X= Matrix(X)
 Y= Matrix(Y)
+print(X.data)
+print(Y.data)
 X_t = X.transponing()
-Ans = (Matrix.reverse((X_t.multiply(X)).data)).multiply(X_t).multiply(Y)
+print(X_t.multiply(X).data)
+print(X_t.multiply(X).reverse.data)
+
+Ans = ((X_t.multiply(X)).reverse.data).multiply(X_t).multiply(Y)
 print(Ans.data)
