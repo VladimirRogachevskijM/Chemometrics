@@ -106,13 +106,14 @@ class Matrix:
         return Reversed
     
     @property
-    def reverse(self, critical_det=1e-10, regularization_param=1e-6):
+    def reverse(self, critical_det=1e-5, regularization_param=1e-6):
         """Calculate reversed matrix and return object Matrix"""
-        det = Matrix.determinant(self.data)
-        if det < critical_det:
+        data = self.data
+        det = Matrix.determinant(data)
+        while det <= critical_det:
             data = Matrix.regularisation(self.data, regularization_param).data
-        else:
-            data = self.data
+            det = Matrix.determinant(data)
+
         for i in data:
             for j in i:
                 j /= det
@@ -120,7 +121,7 @@ class Matrix:
         return Reversed
     
     @staticmethod
-    def regularisation(data, regularization_param=1e-6):
+    def regularisation(data, regularization_param=1e-1):
         new_data = data
         for i in range(min(len(data), len(data[0]))):
             new_data[i][i] += regularization_param
